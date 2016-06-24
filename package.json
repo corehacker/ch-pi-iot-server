@@ -1,0 +1,15 @@
+{
+  "name": "ch-pi-iot-server",
+  "version": "0.0.0",
+  "description": "ch-pi-iot-server",
+  "main": "ch-pi-iot-server.js",
+  "homepage": "",
+  "repository": {"type": "git", "url": ""},
+  "dependencies": {
+    "express": "0.1.0",
+    "caller-id": ""
+  },
+  "author": "Sandeep Prakash <123sandy@gmail.com>",
+  "license": "",
+  "readmeFilename": "README.md"
+}
