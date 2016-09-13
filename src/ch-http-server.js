@@ -1,5 +1,5 @@
 var log = null;
-var Express = require('express');
+var Express = require ('express');
 var fs = require ('fs');
 
 var ChHttpServer = function (env) {
@@ -21,12 +21,12 @@ ChHttpServer.prototype.getListenPort = function () {
 
 ChHttpServer.prototype.getMappings = function () {
    this.pathMapping = {
-      "/config/?(/*)?": this.handleConfig,
-      "/control": this.handleControl,
-      "/www/?(/*(.js|.html|.htm|.css))?": this.handleStatic,
-      "/services": this.handleServices,
-      "/switch/on": this.handleSwitchControl,
-      "/switch/off": this.handleSwitchControl
+      "/config/?(/*)?" : this.handleConfig,
+      "/control" : this.handleControl,
+      "/www/?(/*(.js|.html|.htm|.css))?" : this.handleStatic,
+      "/services" : this.handleServices,
+      "/switch/on" : this.handleSwitchControl,
+      "/switch/off" : this.handleSwitchControl
    }
 };
 
@@ -46,17 +46,16 @@ ChHttpServer.prototype.handleStatic = function (req, res) {
       path = "/www/favicon.ico";
    }
    var options = {
-      root: __dirname,
-      dotfiles: 'deny'
+      root : __dirname,
+      dotfiles : 'deny'
    };
    log.trace ("Actual file path: " + path);
    log.trace ("options: " + JSON.stringify (options));
-   res.sendFile(path, options, function (err) {
+   res.sendFile (path, options, function (err) {
       if (err) {
          log.trace (err);
          res.status ("404").end ();
-      }
-      else {
+      } else {
          log.trace ("Sent: " + path);
       }
    });
@@ -73,8 +72,7 @@ ChHttpServer.prototype.handleConfig = function (req, res) {
       if (err) {
          log.trace ("config file not found: " + err);
          res.send ("hello");
-      }
-      else {
+      } else {
          res.send (data);
       }
    });
@@ -84,14 +82,18 @@ ChHttpServer.prototype.setupCallbacks = function () {
    this.getMappings ();
    for (key in this.pathMapping) {
       log.trace ("Registering mapping: " + key);
-      this.httpHandle.get(key, this.pathMapping[key]);
+      this.httpHandle.get (key, this.pathMapping [key]);
    }
-   this.httpHandle.all('*', function(req, res) {
-      throw new Error("Bad Request")
+   this.httpHandle.all ('*', function (req, res) {
+      throw new Error ("Bad Request")
    });
-   this.httpHandle.use(function(e, req, res, next) {
+   this.httpHandle.use (function (e, req, res, next) {
       if (e.message === "Bad Request") {
-         res.status(400).json({error: {msg: e.message}});
+         res.status (400).json ({
+            error : {
+               msg : e.message
+            }
+         });
       }
    });
 }
@@ -106,13 +108,10 @@ ChHttpServer.prototype.init = function () {
 
 ChHttpServer.prototype.start = function () {
    var self = this;
-   this.httpHandle.listen(this.listenPort, this.listenIP,
-         function () {
-            log.trace ("HTTP server listening on " + self.listenIP + ":" + self.listenPort);
-         });
+   this.httpHandle.listen (this.listenPort, this.listenIP, function () {
+      log.trace ("HTTP server listening on " + self.listenIP + ":"
+            + self.listenPort);
+   });
 }
 
 module.exports = ChHttpServer;
-
-
-

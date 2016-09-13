@@ -1,9 +1,13 @@
-
-const ChEnv = require ('./src/ch-env.js');
-const ChHttpServer = require ('./src/ch-http-server.js');
-const ChUdpServer = require ('./src/ch-udp-server.js');
-const ChUdpClient = require ('./src/ch-udp-client.js');
-const ChMotionSensor = require ('./src/ch-motion-sensor.js');
+const
+ChEnv = require ('./src/ch-env.js');
+const
+ChHttpServer = require ('./src/ch-http-server.js');
+const
+ChUdpServer = require ('./src/ch-udp-server.js');
+const
+ChUdpClient = require ('./src/ch-udp-client.js');
+const
+ChMotionSensor = require ('./src/ch-motion-sensor.js');
 
 function main () {
    var chEnv = new ChEnv ();
@@ -25,4 +29,3 @@ function main () {
 }
 
 main ();
-

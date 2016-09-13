@@ -1,6 +1,6 @@
 var log = null;
-var dgram = require('dgram');
-var http = require('http');
+var dgram = require ('dgram');
+var http = require ('http');
 var util = require ('./ch-utils.js');
 
 var ChUdpServer = function (env) {
@@ -25,17 +25,17 @@ ChUdpServer.prototype.getHttpListenPort = function () {
 
 ChUdpServer.prototype.getDiscoverResponse = function () {
    var config = {
-      config: {
-         http: {
-            ip: null,
-            port: this.getHttpListenPort (),
-            url: "/services"
+      config : {
+         http : {
+            ip : null,
+            port : this.getHttpListenPort (),
+            url : "/services"
          }
       }
    }
-   var ips = util.getIpAddresses();
-   if (ips.length > 0 && ips[0].address.length >= 7) {
-      config.config.http.ip = ips[0].address;
+   var ips = util.getIpAddresses ();
+   if (ips.length > 0 && ips [0].address.length >= 7) {
+      config.config.http.ip = ips [0].address;
    } else {
       config.config.http.ip = "127.0.0.1";
    }
@@ -47,16 +47,17 @@ ChUdpServer.prototype.sendUdpResponse = function (message, remote) {
    var resPort = remote.port;
    var resIp = remote.address;
    var messageStr = message;
-   var messageBuf = new Buffer(messageStr);
+   var messageBuf = new Buffer (messageStr);
 
-   var client = dgram.createSocket('udp4');
-   client.send(messageBuf, 0, messageBuf.length, resPort, resIp, function(err, bytes) {
+   var client = dgram.createSocket ('udp4');
+   client.send (messageBuf, 0, messageBuf.length, resPort, resIp, function (
+         err, bytes) {
       if (err) {
-         log.trace ('Error: UDP message sent to ' + resIp +':'+ resPort);
+         log.trace ('Error: UDP message sent to ' + resIp + ':' + resPort);
       } else {
          // log.trace ('Success: UDP message sent to ' + resIp +':'+ resPort);
       }
-      client.close();
+      client.close ();
    });
 };
 
@@ -67,8 +68,8 @@ ChUdpServer.prototype.handleDiscover = function (message, remote) {
 ChUdpServer.prototype.getSwitchOnActions = function () {
    var actions = [];
    actions.push ({
-      "url": "http://127.0.0.1:8080/switch/on",
-      "protocol": "GET"
+      "url" : "http://127.0.0.1:8080/switch/on",
+      "protocol" : "GET"
    });
    return actions;
 };
@@ -76,8 +77,8 @@ ChUdpServer.prototype.getSwitchOnActions = function () {
 ChUdpServer.prototype.getSwitchOffActions = function () {
    var actions = [];
    actions.push ({
-      url: "http://127.0.0.1:8080/switch/off",
-      protocol: "GET"
+      url : "http://127.0.0.1:8080/switch/off",
+      protocol : "GET"
    });
    return actions;
 };
@@ -104,7 +105,8 @@ ChUdpServer.prototype.executeAction = function (response, action, remote) {
 };
 
 ChUdpServer.prototype.handleSwitchOn = function (message, remote) {
-   log.trace("UDP message from: " + remote.address + ":" + remote.port + ". Message: \"" + message + "\"");
+   log.trace ("UDP message from: " + remote.address + ":" + remote.port
+         + ". Message: \"" + message + "\"");
    var actions = this.getSwitchOnActions ();
    var response = "on";
    for (actionIndex in actions) {
@@ -114,7 +116,8 @@ ChUdpServer.prototype.handleSwitchOn = function (message, remote) {
 };
 
 ChUdpServer.prototype.handleSwitchOff = function (message, remote) {
-   log.trace("UDP message from: " + remote.address + ":" + remote.port + ". Message: \"" + message + "\"");
+   log.trace ("UDP message from: " + remote.address + ":" + remote.port
+         + ". Message: \"" + message + "\"");
    var actions = this.getSwitchOffActions ();
    var response = "off";
    for (actionIndex in actions) {
@@ -125,14 +128,16 @@ ChUdpServer.prototype.handleSwitchOff = function (message, remote) {
 
 ChUdpServer.prototype.setupCallbacks = function () {
    var self = this;
-   this.udpHandle.on('listening', function () {
-      var address = self.udpHandle.address();
-      log.trace('UDP Server listening on ' + address.address + ":" + address.port);
+   this.udpHandle.on ('listening', function () {
+      var address = self.udpHandle.address ();
+      log.trace ('UDP Server listening on ' + address.address + ":"
+            + address.port);
    });
 
-   this.udpHandle.on('message', function (message, remote) {
+   this.udpHandle.on ('message', function (message, remote) {
       message = message.toString ();
-      // log.trace("UDP message from: " + remote.address + ":" + remote.port + ". Message: \"" + message + "\"");
+      // log.trace("UDP message from: " + remote.address + ":" + remote.port +
+      // ". Message: \"" + message + "\"");
       switch (message) {
          case "discover":
             self.handleDiscover (message, remote);
@@ -150,7 +155,7 @@ ChUdpServer.prototype.setupCallbacks = function () {
 ChUdpServer.prototype.init = function () {
    this.listenIP = this.getListenIP ();
    this.listenPort = this.getListenPort ();
-   this.udpHandle = dgram.createSocket('udp4');
+   this.udpHandle = dgram.createSocket ('udp4');
    this.setupCallbacks ();
    return true;
 };
@@ -161,6 +166,3 @@ ChUdpServer.prototype.start = function () {
 }
 
 module.exports = ChUdpServer;
-
-
-

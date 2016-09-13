@@ -1,4 +1,3 @@
-
 var Config = function (cfgFilepath) {
    this.cfgFilepath = cfgFilepath;
 }

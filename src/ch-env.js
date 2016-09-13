@@ -1,6 +1,7 @@
-
-const CONFIG_FILENAME = "/etc/ch-iot.conf";
-const ChLog = require ('./ch-log.js');
+const
+CONFIG_FILENAME = "/etc/ch-iot.conf";
+const
+ChLog = require ('./ch-log.js');
 
 var ChEnv = function () {
    this.cfg = null;
