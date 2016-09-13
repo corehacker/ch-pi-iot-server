@@ -24,8 +24,14 @@ ChHttpServer.prototype.getMappings = function () {
       "/config/?(/*)?": this.handleConfig,
       "/control": this.handleControl,
       "/www/?(/*(.js|.html|.htm|.css))?": this.handleStatic,
-      "/services": this.handleServices
+      "/services": this.handleServices,
+      "/switch/on": this.handleSwitchControl,
+      "/switch/off": this.handleSwitchControl
    }
+};
+
+ChHttpServer.prototype.handleSwitchControl = function (req, res) {
+   log.trace ("Got request: " + req.url);
 };
 
 ChHttpServer.prototype.handleServices = function (req, res) {

@@ -68,16 +68,16 @@ ChUdpClient.prototype.getMachineDetailsFromMessage = function (message) {
 ChUdpClient.prototype.sendBroadcast = function (self) {
    self.udpHandle = dgram.createSocket ('udp4');
    self.udpHandle.bind (function () {
-      log.trace ("UDP client socket bind complete.");
+      //log.trace ("UDP client socket bind complete.");
       self.udpHandle.setBroadcast (true);
-      log.trace ("UDP client socket set to broadcast.")
+      //log.trace ("UDP client socket set to broadcast.")
       self.broadcastAddress = self.getBroadcastAddress ();
 
       self.udpHandle.send(message, 0, message.length, self.getBroadcastPort (),
          self.broadcastAddress, function(err, bytes) {
          if (err) throw err;
-         log.trace ('UDP message sent to ' + self.broadcastAddress +':'+
-            self.getBroadcastPort ());
+         //log.trace ('UDP message sent to ' + self.broadcastAddress +':'+
+         //   self.getBroadcastPort ());
          setTimeout (function () {
             self.udpHandle.close ();
          }, self.getTimeoutMs (), self);
@@ -85,19 +85,19 @@ ChUdpClient.prototype.sendBroadcast = function (self) {
 
       self.udpHandle.on("message", function (message, remote) {
          message = message.toString ();
-         log.trace("UDP message from: " + remote.address + ":" + remote.port +
-            ". Message: \"" + message + "\"");
+         //log.trace("UDP message from: " + remote.address + ":" + remote.port +
+         //   ". Message: \"" + message + "\"");
          try {
             var messageJson = JSON.parse (message);
             var machineDetails = self.getMachineDetailsFromMessage (messageJson);
             if (machineDetails) {
-               log.trace ("Valid machine: " +
-                  JSON.stringify (machineDetails, null, " "));
+               //log.trace ("Valid machine: " +
+               //   JSON.stringify (machineDetails, null, " "));
                self.machineList.push (machineDetails);
             }
          }
          catch (e) {
-            log.trace ("Response not JSON. Ignoring it.");
+            //log.trace ("Response not JSON. Ignoring it.");
          }
       });
    });

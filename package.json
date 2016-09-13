@@ -6,8 +6,9 @@
   "homepage": "",
   "repository": {"type": "git", "url": ""},
   "dependencies": {
-    "express": "0.1.0",
-    "caller-id": ""
+    "express": "4.14.0",
+    "caller-id": "0.1.0",
+    "epoll": "0.1.19"
   },
   "author": "Sandeep Prakash <123sandy@gmail.com>",
   "license": "",
