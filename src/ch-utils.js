@@ -19,3 +19,16 @@ module.exports = {
       return ips;
    }
 };
+
+Array.prototype.sum = function () {
+   var sum = 0;
+   for (var i = 0; i < this.length; i++) {
+      sum += this [i];
+   }
+   return sum;
+}
+
+Array.prototype.average = function () {
+   var sum = this.sum ();
+   return ((this.length > 0) ? (sum / this.length) : 0);
+}
