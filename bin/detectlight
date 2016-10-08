@@ -25,9 +25,10 @@ def RCtime (RCpin):
         # print "GPIO.input (RCpin): %d" % GPIO.input(RCpin);
         return reading
 
-GPIO.setwarnings(False);
-print RCtime(21)     # Read RC timing using pin #18
-GPIO.cleanup();
+if (len(sys.argv) == 2):
+    GPIO.setwarnings(False);
+    print RCtime(int(sys.argv [1]))     # Read RC timing using pin #18
+    GPIO.cleanup();
 
 
 sys.exit();

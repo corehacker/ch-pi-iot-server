@@ -109,8 +109,8 @@ ChUdpServer.prototype.handleSwitchOn = function (message, remote) {
          + ". Message: \"" + message + "\"");
    var actions = this.getSwitchOnActions ();
    var response = "on";
-   for (actionIndex in actions) {
-      var action = actions [actionIndex];
+   for (var i = 0; i < actions.length; i++) {
+      var action = actions [i];
       this.executeAction (response, action, remote);
    }
 };
@@ -120,8 +120,8 @@ ChUdpServer.prototype.handleSwitchOff = function (message, remote) {
          + ". Message: \"" + message + "\"");
    var actions = this.getSwitchOffActions ();
    var response = "off";
-   for (actionIndex in actions) {
-      var action = actions [actionIndex];
+   for (var i = 0; i < actions.length; i++) {
+      var action = actions [i];
       this.executeAction (response, action, remote);
    }
 };

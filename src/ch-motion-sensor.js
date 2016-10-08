@@ -59,6 +59,7 @@ ChMotionSensor.prototype.getActions = function (activityType, sensor) {
 };
 
 ChMotionSensor.prototype.executeAction = function (action) {
+   log.trace ("Executing action: GET " + action.url);
    var req = http.get (action.url, function (res) {
       res.on ('data', function (chunk) {
       });
@@ -80,8 +81,8 @@ ChMotionSensor.prototype.executeAction = function (action) {
 ChMotionSensor.prototype.takeAppropriateActions = function (activityType,
       sensor) {
    var actions = this.getActions (activityType, sensor);
-   for (actionIndex in actions) {
-      var action = actions [actionIndex];
+   for (var i = 0; i < actions.length; i++) {
+      var action= actions [i];
       this.executeAction (action);
    }
 };
@@ -179,11 +180,12 @@ ChMotionSensor.prototype.monitorSensor = function (sensor) {
 
 ChMotionSensor.prototype.start = function () {
    var self = this;
-   var sensors = this.getMotionSensors ();
-   this.sensors = sensors;
-   for (sensorIndex in sensors) {
-      var sensor = sensors [sensorIndex];
-      log.trace ("Sensor to monitor: " + sensor ["pin-number"]);
+   this.sensors = this.getMotionSensors ();
+   log.trace ("Sensors: " + JSON.stringify (this.sensors) + ", Length: " + this.sensors.length);
+
+   for (var i = 0; i < this.sensors.length; i++) {
+      var sensor = this.sensors [i];
+      log.trace ("[" + i + "] - Sensor to monitor: " + JSON.stringify (sensor));
       this.setupSensor (sensor);
       this.monitorSensor (sensor);
    }

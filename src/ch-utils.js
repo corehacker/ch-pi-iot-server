@@ -26,9 +26,9 @@ Array.prototype.sum = function () {
       sum += this [i];
    }
    return sum;
-}
+};
 
 Array.prototype.average = function () {
    var sum = this.sum ();
    return ((this.length > 0) ? (sum / this.length) : 0);
-}
+};

@@ -8,6 +8,8 @@ const
 ChUdpClient = require ('./src/ch-udp-client.js');
 const
 ChMotionSensor = require ('./src/ch-motion-sensor.js');
+const
+ChLightSensor = require ('./src/ch-light-sensor.js');
 
 function main () {
    var chEnv = new ChEnv ();
@@ -26,6 +28,28 @@ function main () {
    var chMotionSensor = new ChMotionSensor (chEnv);
    chMotionSensor.init ();
    chMotionSensor.start ();
+
+   var chLightSensor = new ChLightSensor (chEnv);
+   chLightSensor.init ();
+}
+
+function main2 () {
+   var Gpio = require('onoff').Gpio;
+   var light = null;
+
+   light = new Gpio(21, 'out');
+   light.writeSync(0);
+
+   setTimeout(function () {
+    light = new Gpio (21, 'in', 'both');
+    console.log ("Watching sensor...");
+    light.watch(function(err, value) {
+       if (err) {
+          throw err;
+        }
+       console.log ("Light activity: " + value);
+    });
+   }, 100);
 }
 
 main ();
